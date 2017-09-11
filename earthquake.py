@@ -1,6 +1,6 @@
 
 from simulator import Simulator ,SimulationMethod
-from simulator import Node, Graph
+from simulator import Node, Graph, LoggingLevel
 
 
 prior_B = [0.3, 0.7]
@@ -20,10 +20,11 @@ M = Node('M', prior_M, parents = [A]   )
 
 rede = Graph([B, E, P, A, J, M])
 
-MC = Simulator( rede, 20000, SimulationMethod.LikelyhoodWeighting )
+#MC = Simulator( rede, 20000, method = SimulationMethod.LikelyhoodWeighting , level = LoggingLevel.DEBUG )
+MC = Simulator( rede, 20000, method = SimulationMethod.LogicalSampling , level = LoggingLevel.INFO )
 MC.initialize()
 MC.execute()
-#MC.finalize()
+MC.finalize()
 
 
 

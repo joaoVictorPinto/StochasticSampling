@@ -33,14 +33,16 @@ class SimulationMethod(EnumStringification):
 
 class Simulator(Logger):
 
-  def __init__( self, graph, max_epoch = 1e5, method = SimulationMethod.LogicalSampling):
+  def __init__( self, graph, max_epoch = 1e5, **kw ):
 
-    Logger.__init__(self)
+    Logger.__init__(self, **kw)
+    self._level   = retrieve_kw( kw, 'level'   , LoggingLevel.INFO                )
+    self._method  = retrieve_kw( kw, 'method'  , SimulationMethod.LogicalSampling )
     self._graph = graph
-    self._method = method
     self._max_epoch = max_epoch
 
   def initialize(self):
+    self._graph.setLevel(self.getLevel())
     self._graph.initialize()
 
   def execute(self):

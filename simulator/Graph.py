@@ -1,7 +1,7 @@
 
 __all__ = ['Node','Graph']
 
-from Logger import Logger, LoggingLevel, EnumStringification, retrieve_kw, NotSet
+from simulator import Logger, LoggingLevel, EnumStringification, retrieve_kw, NotSet
 import random as ra
 
 
@@ -11,9 +11,8 @@ class Node(Logger):
 
   def __init__(self, name, cpt, **kw):
 
-    Logger.__init__(self)
+    Logger.__init__(self, **kw)
     self._parents  = retrieve_kw( kw, 'parents', NotSet            )
-    self._level    = retrieve_kw( kw, 'level'  , LoggingLevel.INFO )
     self._description = retrieve_kw( kw, 'description'  , str()    )
     self._name     = name
     self._cpt      = cpt
@@ -91,8 +90,8 @@ class Node(Logger):
 
 class Graph(Logger):
 
-  def __init__(self, nodes):
-    Logger.__init__(self)
+  def __init__(self, nodes, **kw):
+    Logger.__init__(self, **kw)
     self._nodes = nodes
 
   def __add__(self,node):
@@ -103,6 +102,7 @@ class Graph(Logger):
 
   def initialize(self):
     for node in self._nodes:
+      node.setLevel(self.getLevel())
       node.initialize()
 
   def execute(self):

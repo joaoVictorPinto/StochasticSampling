@@ -235,10 +235,11 @@ class Logger(object):
     return formatter
   
 
-  def __init__(self):
+  def __init__(self, **kw):
     import sys
     # create logger with 'spam_application'
     from copy import copy
+    self._level = retrieve_kw( kw, 'level', LoggingLevel.INFO)
     self._logger = logging.getLogger(self.__class__.__name__)
     ch = logging.StreamHandler(sys.__stdout__)
     formatter =  self._getFormatter()
@@ -247,10 +248,12 @@ class Logger(object):
     # add the handlers to #the logger
     self._logger.handlers = [] # Force only one handler
     self._logger.addHandler(ch)
-    self._logger.setLevel(logging.INFO)
+    self._logger.setLevel(self._level)
 
   def setLevel(self, lvl):
     self._logger.setLevel(lvl)
 
 
+  def getLevel(self):
+    return self._level
 
