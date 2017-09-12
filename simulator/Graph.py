@@ -1,3 +1,6 @@
+# Trabalho de CPE 726 - Topicos Especiais em Inferencia em Grafos
+# Author: Joao Victor da Fonseca Pinto
+
 
 __all__ = ['Node','Graph']
 
@@ -18,15 +21,27 @@ class Node(Logger):
     self._cpt      = cpt
     self._evidence = NotSet
     self._state    = NotSet
+
+    if self._parents is NotSet:
+      self._nstate   = len(cpt)
+    else:
+      from copy import copy
+      prior = copy(cpt[0])
+      for i in range(1,len(self._parents)):
+        prior=prior[0]
+      self._nstate=len(prior)
+
     self._logger.info('Node %s was created.',self._name)
 
   def initialize(self):
-    self._logger.info('Initializing Node: %s',self._name)
+    self._logger.info('Initializing Node %s with %d states.',self._name,self._nstate)
     self._draw = 0
-    self._frequency_states = [0,0] # T and F
+    self._frequency_states = [ 0 for _ in range(self._nstate)] 
 
   def finalize(self):
-    pass
+    self._logger.info('Prior probabilities (normalized) for the node %s',self.name())
+    for state in range(self._nstate):
+      print ('P(%s=%d) = %1.4f') % (self._name,state,self.freq_norm(state))
 
   def execute(self):
     pass
@@ -48,7 +63,7 @@ class Node(Logger):
   def evidence(self):
     return self._evidence
 
-  def likelihood(self):
+  def likelyhood(self):
     return self.prior()[self._evidence] if not self._evidence is NotSet else 1.0
 
   # retorna a frequencia normalizada do estado do no. No caso discreto binario, state pode 
@@ -86,7 +101,7 @@ class Node(Logger):
         state+=1; low=upp; upp=upp+prior_prob[state]
     self._state = state
  
-
+  
 
 class Graph(Logger):
 

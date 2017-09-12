@@ -1,7 +1,6 @@
 #coding: utf-8
-
-# Inferencia 
-# Nome: Joao Victor da Fonseca Pinto
+# Trabalho de CPE 726 - Topicos Especiais em Inferencia em Grafos
+# Author: Joao Victor da Fonseca Pinto
 
 __all__ = ['Simulator', 'SimulationMethod']
 
@@ -62,7 +61,7 @@ class Simulator(Logger):
 
 
   def finalize(self):
-    pass
+    self._graph.finalize()
 
 
   def _likelihoodWeighting(self):

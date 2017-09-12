@@ -1,3 +1,6 @@
+# Trabalho de CPE 726 - Topicos Especiais em Inferencia em Grafos
+# Author: Joao Victor da Fonseca Pinto
+
 __all__ = ['EnumStringification', 'LoggingLevel', 'Logger','retrieve_kw', 'NotSet']
 
 import logging
