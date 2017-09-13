@@ -5,12 +5,12 @@
 __all__ = ['Node','Graph']
 
 from simulator import Logger, LoggingLevel, EnumStringification, retrieve_kw, NotSet
-import random as ra
+import random as rng
 
 
 class Node(Logger):
 
-  _prng = ra
+  _prng = rng
 
   def __init__(self, name, cpt, **kw):
 
@@ -27,8 +27,7 @@ class Node(Logger):
     else:
       from copy import copy
       prior = copy(cpt[0])
-      for i in range(1,len(self._parents)):
-        prior=prior[0]
+      for i in range(1,len(self._parents)): prior=prior[0]
       self._nstate=len(prior)
 
     self._logger.info('Node %s was created.',self._name)
@@ -46,25 +45,23 @@ class Node(Logger):
   def execute(self):
     pass
 
-  def state(self):
-    return self._state
-   
   def add_parent(self, node):
     self._parents.append(node)  
 
-  # retorna o nome do no.
   def name(self):
     return self._name
 
-  # pode ser 0 ou 1 (T or F) no caso discreto para dois estados.
+  def set_state(self, state):
+    self._state = state
+
+  def state(self):
+    return self._state
+
   def set_evidence( self, evidence ):
     self._evidence = evidence
 
   def evidence(self):
     return self._evidence
-
-  def likelyhood(self):
-    return self.prior()[self._evidence] if not self._evidence is NotSet else 1.0
 
   # retorna a frequencia normalizada do estado do no. No caso discreto binario, state pode 
   # set 0 (False) ou 1 (True) considerando o exemplo do terremoto do livro do korb.
@@ -75,10 +72,6 @@ class Node(Logger):
   def update_freq(self, inc=1):
   	self._draw+=inc; self._frequency_states[self.state()]+=inc
  
-  def update_evidence(self):
-    if self._evidence is not NotSet:
-      self._state = self._evidence
-
   # retorna a prob a priore considerando o estado dos pais.
   def prior(self):
     from copy import copy

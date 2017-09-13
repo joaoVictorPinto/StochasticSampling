@@ -28,7 +28,8 @@ R.set_evidence(0) # can be 0 or 1
 
 net = Graph([U,V,X,R,Z,W])
 
-MC = Simulator( net, 20000, method = SimulationMethod.LikelyhoodWeighting , level = LoggingLevel.DEBUG )
+MC = Simulator( net, 20000, method = SimulationMethod.LikelyhoodWeighting , level = LoggingLevel.INFO )
+#MC = Simulator( net, 20000, method = SimulationMethod.LikelyhoodWeighting , level = LoggingLevel.DEBUG )
 #MC = Simulator( net, 20000, method = SimulationMethod.LogicalSampling , level = LoggingLevel.INFO )
 MC.initialize()
 MC.execute()

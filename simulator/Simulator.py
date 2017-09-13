@@ -70,14 +70,16 @@ class Simulator(Logger):
       likelyhood = 1.0
       for node in graph:
         if not node.evidence() is NotSet:
-          likelyhood *= node.likelyhood()
+          likelyhood *= (node.prior()[node.evidence()] if not node.evidence() is NotSet else 1.0)
       return likelyhood
 
     for node in self._graph:
       if node.evidence() is NotSet:
         node.draw()
       else:
-        node.update_evidence()
+        node.set_state( node.evidence() )
+
+
     likelyhood = calc_likelyhood(self._graph)
     for node in self._graph:
       node.update_freq(likelyhood)
