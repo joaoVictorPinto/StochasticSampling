@@ -66,12 +66,12 @@ class Simulator(Logger):
 
   def _likelihoodWeighting(self):
 
-    def calc_likelyhood(graph):
-      likelyhood = 1.0
+    def calc_likelihood(graph):
+      likelihood = 1.0
       for node in graph:
         if not node.evidence() is NotSet:
-          likelyhood *= (node.prior()[node.evidence()] if not node.evidence() is NotSet else 1.0)
-      return likelyhood
+          likelihood *= (node.prior()[node.evidence()] if not node.evidence() is NotSet else 1.0)
+      return likelihood
 
     for node in self._graph:
       if node.evidence() is NotSet:
@@ -80,9 +80,9 @@ class Simulator(Logger):
         node.set_state( node.evidence() )
 
 
-    likelyhood = calc_likelyhood(self._graph)
+    likelihood = calc_likelihood(self._graph)
     for node in self._graph:
-      node.update_freq(likelyhood)
+      node.update_freq(likelihood)
 
 
   def _logicalSampling(self):
